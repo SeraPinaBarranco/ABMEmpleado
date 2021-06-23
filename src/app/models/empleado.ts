@@ -6,12 +6,12 @@ export class Empleado{
     estadoCivil:string;
     sexo:string;
 
-    constructor(){
+    /*constructor(){
         this.nombreCompleto="";
         this.telefono=0;
         this.correo="";
         this.fechaIngreso= new Date();
         this.estadoCivil="";
         this.sexo="";
-    }
+    }*/
 }

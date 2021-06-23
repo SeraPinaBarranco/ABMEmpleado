@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { ReactiveFormsModule } from '@angular/forms';
 
  
 import { AppRoutingModule } from './app-routing.module';
@@ -26,8 +26,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    AngularMaterialModule
-    
+    AngularMaterialModule,
+    ReactiveFormsModule    
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -6,6 +6,9 @@ import {Subject} from 'rxjs';
 import { MatSort } from '@angular/material/sort';
 import { EmpleadoService } from 'src/app/services/empleado.service';
 import { Empleado } from 'src/app/models/empleado';
+import { MatDialog } from '@angular/material/dialog';
+import { MensajeConfirmacionComponent } from '../shared/mensaje-confirmacion/mensaje-confirmacion.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -16,28 +19,25 @@ import { Empleado } from 'src/app/models/empleado';
 })
 export class ListEmpleadoComponent implements OnInit {
   displayedColumns: string[] = ['nombreCompleto', 'correo', 'estadoCivil', 'fechaIngreso', 'sexo','telefono','acciones'];
-  dataSource = new MatTableDataSource<Empleado>();
+  dataSource = new MatTableDataSource();
   listEmpleado: Empleado[] ;
   
-  @ViewChild(MatSort, {static:true}) sort!: MatSort;
+  @ViewChild(MatSort, {static:true}) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-
-  @ViewChild(MatPaginator, { static: true })
-  paginator!: MatPaginator;
-  constructor(private empleadoService : EmpleadoService) {
-    this.listEmpleado = this.empleadoService.getEmpleados(); 
+  constructor(private empleadoService : EmpleadoService, public dialog: MatDialog,
+              public snackBar: MatSnackBar) {
+    //this.listEmpleado = this.empleadoService.getEmpleados(); 
   }
 
   ngOnInit(): void {
-    this.cargarEmpleados();
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.cargarEmpleados();    
     
   }
 
-  ngAfterViewInit() {
+  /*ngAfterViewInit() {
     this.dataSource.sort = this.sort;
-  }
+  }*/
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -47,7 +47,27 @@ export class ListEmpleadoComponent implements OnInit {
   cargarEmpleados(){
     this.listEmpleado = this.empleadoService.getEmpleados();
     console.log(this.listEmpleado);
-    this.dataSource = new MatTableDataSource<Empleado>();
+    this.dataSource = new MatTableDataSource(this.listEmpleado);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  eliminarEmpleado(index:number){
+
+    const dialogRef = this.dialog.open(MensajeConfirmacionComponent, {
+      width: '350px',
+      data: {mensaje: "Está seguro que quiere eliminar el registro?"}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {  
+
+      if(result === 'aceptar'){
+        this.empleadoService.eliminarEmpleado(index);
+        this.cargarEmpleados(); 
+        this.snackBar.open("Elemento eliminado!!","",{duration:2000});
+      }
+
+    });
   }
 }
 

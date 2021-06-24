@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_RADIO_DEFAULT_OPTIONS } from '@angular/material/radio';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -21,7 +21,7 @@ export class AddEditEmpleadoComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private empleadoService: EmpleadoService, private route: Router, private snackBar: MatSnackBar) { 
     this.myForm = this.fb.group({
-      nombreCompleto:[''],
+      nombreCompleto:['', Validators.required],
       correo:[''],
       fechaIngreso:[''],
       telefono:[''],
@@ -34,7 +34,8 @@ export class AddEditEmpleadoComponent implements OnInit {
   }
 
   guardarEmpleado(){
-    const empleado: Empleado ={
+    console.log(this.myForm);
+    /*const empleado: Empleado ={
       nombreCompleto: this.myForm.get('nombreCompleto').value,
       correo: this.myForm.get('correo').value,
       telefono: this.myForm.get('telefono').value,
@@ -46,8 +47,8 @@ export class AddEditEmpleadoComponent implements OnInit {
     this.empleadoService.agregarEmpleado(empleado);
 
     this.snackBar.open("Elemento creado!!","",{duration:2000});
-    
-    this.route.navigate(['/']);
 
+    this.route.navigate(['/']);
+*/
   }
 }

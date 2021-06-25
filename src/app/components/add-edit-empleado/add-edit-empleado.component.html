@@ -1,10 +1,8 @@
 <div class="row">
     <div class="col-lg-6">
-        <h2>Agregar Empleado</h2>
+        <h2>{{accion}} Empleado</h2>
     </div>
 </div>
-
-<pre>{{myForm.value | json}}</pre>
 
 <div class="row">
     <div class="col-lg-4">
@@ -17,12 +15,21 @@
                 <div *ngIf="myForm.get('nombreCompleto').hasError('required') && myForm.get('nombreCompleto').touched" style="margin-top: -20px;">
                     <span class="mda-form-msg">Este campo es <strong>requerido</strong></span>
                 </div>
+                <div *ngIf="myForm.get('nombreCompleto').hasError('maxlength') && myForm.get('nombreCompleto').touched" style="margin-top: -20px;">
+                    <span class="mda-form-msg">El campo debe tener un máximo de <strong>20 caracteres</strong></span>
+                </div>
             </div>
             <div class="col-lg-12">
                 <mat-form-field class="example-container" [style.font-size.px]=16>
                     <mat-label>Correo</mat-label>
                     <input matInput formControlName="correo">
                 </mat-form-field>
+                <div *ngIf="myForm.get('correo').hasError('required') && myForm.get('correo').touched" style="margin-top: -20px;">
+                    <span class="mda-form-msg">Este campo es <strong>requerido</strong></span>
+                </div>
+                <div *ngIf="myForm.get('correo').hasError('email') && myForm.get('correo').touched" style="margin-top: -20px;">
+                    <span class="mda-form-msg">Formato de correo <strong>incorrecto</strong></span>
+                </div>
             </div>
             <br>
             <br>
@@ -33,13 +40,18 @@
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker touchUi #picker></mat-datepicker>
                 </mat-form-field>
-                  
+                <div *ngIf="myForm.get('fechaIngreso').hasError('required') && myForm.get('fechaIngreso').touched" style="margin-top: -20px;">
+                    <span class="mda-form-msg">Este campo es <strong>requerido</strong></span>
+                </div>  
             </div>
             <div class="col-lg-12">
                 <mat-form-field class="example-container">
                     <mat-label>Telefono</mat-label>
                     <input matInput formControlName="telefono">
                 </mat-form-field>
+                <div *ngIf="myForm.get('telefono').hasError('required') && myForm.get('telefono').touched" style="margin-top: -20px;">
+                    <span class="mda-form-msg">Este campo es <strong>requerido</strong></span>
+                </div> 
             </div>
             <div class="col-lg-12">
                 <mat-form-field class="example-container" >
@@ -50,6 +62,9 @@
                       </mat-option>
                     </mat-select>
                 </mat-form-field>
+                <div *ngIf="myForm.get('estadoCivil').hasError('required') && myForm.get('estadoCivil').touched" style="margin-top: -20px;">
+                    <span class="mda-form-msg">Este campo es <strong>requerido</strong></span>
+                </div> 
             </div>
             <br>
             <div class="col-lg-12">
@@ -57,11 +72,14 @@
                     <mat-radio-button value="Masculino" style="margin-right: 10px;">Masculino</mat-radio-button>
                     <mat-radio-button value="Femenino">Femenino</mat-radio-button>
                   </mat-radio-group>
-                  
+                  <div *ngIf="myForm.get('sexo').hasError('required') && myForm.get('sexo').touched" style="margin-top: -20px;">
+                    <span class="mda-form-msg">Este campo es <strong>requerido</strong></span>
+                </div> 
             </div>
             <br>
             <div class="col-lg-12">
-                <button class="btn btn-success btn-lg" style= "float:right;margin-left: 10px;" type="button" (click)="guardarEmpleado()">Aceptar</button>  
+                <button class="btn btn-success btn-lg" style= "float:right;margin-left: 10px;" type="button" (click)="guardarEmpleado()"
+                [disabled]="myForm.invalid">Aceptar</button>  
                 <button class="btn btn-secondary btn-lg" style= "float:right;" type="button" routerLink="/">Cancelar</button>              
             </div>
             
